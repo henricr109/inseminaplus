@@ -90,7 +90,6 @@ public class AuthController {
           .body(new MessageResponse("Error: Email is already in use!"));
     }
 
-    //cria novo usur
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
                          encoder.encode(signUpRequest.getPassword()));
@@ -99,7 +98,7 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
-      Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+      Role userRole = roleRepository.findByName(ERole.ROLE_COMPRADOR)
           .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
       roles.add(userRole);
     } else {
@@ -111,16 +110,16 @@ public class AuthController {
           roles.add(adminRole);
 
           break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+        case "vendedor":
+          Role vendedorRole = roleRepository.findByName(ERole.ROLE_VENDEDOR)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
+          roles.add(vendedorRole);
 
           break;
         default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+          Role compradorRole = roleRepository.findByName(ERole.ROLE_COMPRADOR)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(userRole);
+          roles.add(compradorRole);
         }
       });
     }
@@ -131,10 +130,4 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 }
-//POST 	/api/auth/signup 	signup new account
-//POST 	/api/auth/signin 	login an account
-//POST 	/api/auth/signout 	logout the account
-//GET 	/api/test/all 	retrieve public content
-//GET 	/api/test/user 	access User’s content
-//GET 	/api/test/mod 	access Moderator’s content
-//GET 	/api/test/admin 	access Admin’s content
+
