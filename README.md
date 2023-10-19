@@ -17,8 +17,8 @@ mvn spring-boot:run - Inicia o programa
 Precisa add as roles no database antes de tentar usar os endpoins caso não haja
 
 db.roles.insertMany([
-   { name: "ROLE_USER" },
-   { name: "ROLE_MODERATOR" },
+   { name: "ROLE_COMPRADOR },
+   { name: "ROLE_VENDEDOR" },
    { name: "ROLE_ADMIN" },
 ])
 
