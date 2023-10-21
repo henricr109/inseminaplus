@@ -26,11 +26,11 @@ db.roles.insertMany([
 
 Usos endpoints - use postman
 
-POSTS USE ARQUIVO 
+POSTS USE ARQUIVO DE REQUEST - inseminaPlus Requests.postman_collection.json
 
 POST 	/api/auth/signout     logout the account
 
-Header nos metodos get: inseminaPlus Requests.postman_collection.json
+Header nos metodos get:
 
 KEY : Authorization VALUE:Bearer [TOKEN]
 
