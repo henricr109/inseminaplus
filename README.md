@@ -1,6 +1,6 @@
 # inseminaplus
 
-trocar no application.properties:
+trocar no application.properties dentro do resources:
 
 spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<clusterName>.mongodb.net/< databaseName >
 
@@ -26,38 +26,13 @@ db.roles.insertMany([
 
 Usos endpoints - use postman
 
-POST 	/api/auth/signup-signup new account
+POSTS USE ARQUIVO 
 
-body-raw-json:
+POST 	/api/auth/signout     logout the account
 
-{
+Header nos metodos get: inseminaPlus Requests.postman_collection.json
 
-    "username": "username",
-    
-    "email" : "email",
-    
-    "password" :"password",
-    
-    "role" :["role"]
-}
-
-
-
-POST 	/api/auth/signin-login an account
-{
-
-    "username": "username",
-    
-    "password" :"password",
-    
-}
-
-
-POST 	/api/auth/signout logout the account
-
-Header nos metodos get:
-
-KEY:Authorization VALUE:Bearer [TOKEN]
+KEY : Authorization VALUE:Bearer [TOKEN]
 
 GET 	/api/test/all retrieve public content
 
