@@ -13,6 +13,28 @@ public class SignupRequest {
   @Size(max = 50)
   @Email
   private String email;
+  @NotBlank
+  @Size( max = 15)
+  private String cpf;
+  @NotBlank
+  @Size( max = 15)
+  private String afe;
+
+  public String getCpf() {
+    return cpf;
+  }
+
+  public void setCpf(String cpf) {
+    this.cpf = cpf;
+  }
+
+  public String getAfe() {
+    return afe;
+  }
+
+  public void setAfe(String afe) {
+    this.afe = afe;
+  }
 
   private Set<String> roles;
 

@@ -24,6 +24,14 @@ public class User {
   @Size(max = 50)
   @Email
   private String email;
+  @NotBlank
+  @Size(max = 15)
+  private String cpf;
+
+  @NotBlank
+  @Size(max = 15)
+  private String afe;;
+
 
   @NotBlank
   @Size(max = 120)
@@ -35,10 +43,28 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password) {
+  public User(String username, String email, String password, String cpf, String afe) {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.cpf = cpf;
+    this.afe = afe;
+  }
+
+  public String getCpf() {
+    return cpf;
+  }
+
+  public void setCpf(String cpf) {
+    this.cpf = cpf;
+  }
+
+  public String getAfe() {
+    return afe;
+  }
+
+  public void setAfe(String afe) {
+    this.afe = afe;
   }
 
   public String getId() {
