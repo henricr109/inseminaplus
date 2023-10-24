@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +63,7 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         try {
-            Product _product = productRepository.save(new Product(product.getName(), product.getCategory(), product.getStock(), product.getValue()));
+            Product _product = productRepository.save(new Product(product.getName(), product.getCategory(), product.getStock(), product.getValue(), product.getRace()));
             return new ResponseEntity<>(_product, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,6 +79,7 @@ public class ProductController {
             _product.setName(product.getName());
             _product.setCategory(product.getCategory());
             _product.setStock(product.getStock());
+            _product.setRace(product.getRace());
             return new ResponseEntity<>(productRepository.save(_product), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

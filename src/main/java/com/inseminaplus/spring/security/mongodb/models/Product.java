@@ -12,16 +12,22 @@ public class Product {
     private String category;
     private String stock;
     private String value;
+    private String race;
 
     public Product() {
 
     }
 
-    public Product(String name, String category, String stock, String value) {
+    public Product(String name, String category, String stock, String value, String race) {
         this.name = name;
         this.category = category;
         this.stock = stock;
         this.value = value;
+        this.race = race;
+    }
+
+    public String getRace() {
+        return this.race;
     }
 
     public String getId() {
@@ -38,6 +44,10 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setRace (String race) {
+        this.race = race;
     }
 
     public String getStock() {
@@ -72,6 +82,7 @@ public class Product {
                 ", stock='" + stock + '\'' +
                 ", value='" + value + '\'' +
                 ", category='" + category + '\'' +
+                ", race= '" + this.race + '\'' +
                 '}';
     }
 }
