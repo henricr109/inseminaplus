@@ -7,6 +7,6 @@ import com.inseminaplus.spring.security.mongodb.models.Product;
 public interface ProductRepository extends MongoRepository<Product, String> {
     List<Product> findAll(); // find all products
     List<Product> findByCategory(boolean category);
-    List<Product> findByTitleContaining(String name);
+    List<Product> findByNameContaining(String name);
 }
 
