@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import  com.inseminaplus.spring.security.mongodb.models.Product;
+import com.inseminaplus.spring.security.mongodb.models.Product;
 import com.inseminaplus.spring.security.mongodb.repository.ProductRepository;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
