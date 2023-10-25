@@ -1,24 +1,31 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "products")
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
+    @Column(name = "name")
     private String name;
+    @Column(name="category")
     private String category;
-    private String stock;
-    private String value;
+    @Column(name="stock")
+    private int stock;
+    @Column(name="value")
+    private int value;
+    @Column(name="race")
     private String race;
 
     public Product() {
 
     }
 
-    public Product(String name, String category, String stock, String value, String race) {
+    public Product(String name, String category, int stock, int value, String race) {
         this.name = name;
         this.category = category;
         this.stock = stock;
@@ -30,11 +37,11 @@ public class Product {
         return this.race;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -50,19 +57,19 @@ public class Product {
         this.race = race;
     }
 
-    public String getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 

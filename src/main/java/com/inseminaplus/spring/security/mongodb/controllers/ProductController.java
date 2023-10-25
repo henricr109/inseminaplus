@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import  com.inseminaplus.spring.security.mongodb.models.Product;
 import com.inseminaplus.spring.security.mongodb.repository.ProductRepository;
-
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/prod")
+@RequestMapping("/api")
 public class ProductController {
 
     @Autowired
@@ -50,7 +49,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getproductById(@PathVariable("id") String id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {
         Optional<Product> productData = productRepository.findById(id);
 
         if (productData.isPresent()) {
@@ -61,9 +60,10 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createTutorial(@RequestBody Product product) {
         try {
-            Product _product = productRepository.save(new Product(product.getName(), product.getCategory(), product.getStock(), product.getValue(), product.getRace()));
+            Product _product = productRepository
+                    .save(new Product(product.getName(), product.getCategory(), product.getStock(), product.getValue(),product.getRace()));
             return new ResponseEntity<>(_product, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
         Optional<Product> productData = productRepository.findById(id);
 
         if (productData.isPresent()) {
@@ -79,6 +79,7 @@ public class ProductController {
             _product.setName(product.getName());
             _product.setCategory(product.getCategory());
             _product.setStock(product.getStock());
+            _product.setValue(product.getValue());
             _product.setRace(product.getRace());
             return new ResponseEntity<>(productRepository.save(_product), HttpStatus.OK);
         } else {
@@ -87,7 +88,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") String id) {
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") Long id) {
         try {
             productRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -105,9 +106,9 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/product/test")
+    @GetMapping("/test")
     public String endpointTest() {
-        return "Endpoint funcionandlo.";
+        return "Endpoint functional";
     }
 
 }
