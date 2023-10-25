@@ -71,7 +71,7 @@ public class ClientController {
         }
     }
 
-    @PutMapping("/clients{id}")
+    @PutMapping("/clients/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable("id") Long id, @RequestBody Client client) {
         Optional<Client> clientData = clientRepository.findById(id);
 
