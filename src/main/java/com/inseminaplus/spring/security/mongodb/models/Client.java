@@ -3,12 +3,14 @@ package com.inseminaplus.spring.security.mongodb.models;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_generator" )
     private long id;
     @Column(name="name")
     private String name;
@@ -20,6 +22,7 @@ public class Client {
     private Integer certificateCode;
     @Column(name="email")
     private String email;
+
 
     public Client(){
 
