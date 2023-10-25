@@ -1,5 +1,9 @@
 # inseminaplus
 
+Subir servidor MySql:
+
+sudo systemctl start mysqld(fedora)
+
 trocar no application.properties dentro do resources:
 
 MongodbAtlas(Em nuvem, portanto não é necessário abrir o servidor do database):
@@ -10,7 +14,6 @@ spring.data.mongodb.database=< databaseName >
 
 MySql(servidor local é necessário subir servidor):
 
-Subir servidor MySql
 
 spring.datasource.url= jdbc:mysql://localhost:3306/<database ame>?useSSL=false
 
