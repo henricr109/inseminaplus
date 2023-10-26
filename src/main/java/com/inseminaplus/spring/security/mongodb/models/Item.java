@@ -1,66 +1,73 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+@Entity
+@Table(name ="items")
 public class Item {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private String id;
-    
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_generator")
+    private long id;
     @Column(name = "name")
     private String name;
-
     @Column(name = "value")
     private Double value;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "order_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Order order;
 
     public Item() {
 
     }
 
-    public Item(String name, Double value, Order order){
+    public Item(String name, Double value) {
         this.name = name;
         this.value = value;
-        this.order = order;
     }
 
-    
-    public void setName(String name){
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setOrder(Order order){
-        this.order = order;
+    public Double getValue() {
+        return value;
     }
 
-    public void setValue(Double value){
+    public void setValue(Double value) {
         this.value = value;
     }
 
-    public String getName(){
-        return this.name;
+    public Order getOrder() {
+        return order;
     }
 
-    public Double getValue(){
-        return this.value;
-    }
-
-    public Order getOrder(){
-        return this.order;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + this.id +
-                ", name='" + this.name + '\'' +
-                ", value=" + this.value +
-                ", order='" + this.order + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", value=" + value +
+                ", order=" + order +
                 '}';
     }
 }

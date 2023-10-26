@@ -13,7 +13,6 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
     private long id;
-
     @Column(name = "name")
     private String name;
     @Column(name="category")
