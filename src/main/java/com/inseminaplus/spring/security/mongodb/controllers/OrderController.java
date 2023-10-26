@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.inseminaplus.spring.security.mongodb.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inseminaplus.spring.security.mongodb.models.Order;
 import com.inseminaplus.spring.security.mongodb.repository.OrderRepository;
-
+import com.inseminaplus.spring.security.mongodb.repository.ClientRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api")
 public class OrderController {
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     @GetMapping("/orders")
-    public ResponseEntity<List<Order>> getAllOrders(@RequestParam(required = false) String id) {
+    public ResponseEntity<List<Order>> getAllOrders(@RequestParam(required = false) String  id) {
         try {
             List<Order> orders = new ArrayList<>();
 
@@ -50,8 +53,8 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable("id") String id) {
-        Optional<Order> orderData = orderRepository.findById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable("id") long id) {
+        Optional<Order> orderData = orderRepository.findById(String.valueOf(id));
 
         if (orderData.isPresent()) {
             return new ResponseEntity<>(orderData.get(), HttpStatus.OK);
@@ -60,20 +63,20 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/orders")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        try {
-            Order _order = orderRepository
-                    .save(new Order(order.getDate(), order.getSituation(), order.getValue(), order.getClient()));
-            return new ResponseEntity<>(_order, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @PostMapping("/clients/{clientId}/orders")
+    public ResponseEntity<Order> createOrder(@PathVariable(value = "clientId") Long clientId,
+                                                 @RequestBody Order orderRequest) {
+        Order order = clientRepository.findById(clientId).map(client -> {
+            orderRequest.setClient(client);
+            return orderRepository.save(orderRequest);
+        }).orElseThrow(() -> new ResourceNotFoundException("Not found Client with id = " + clientId));
+
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @PutMapping("/orders/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable("id") String id, @RequestBody Order order) {
-        Optional<Order> orderData = orderRepository.findById(id);
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") long id, @RequestBody Order order) {
+        Optional<Order> orderData = orderRepository.findById(String.valueOf(id));
 
         if (orderData.isPresent()) {
             Order _order = orderData.get();
@@ -88,9 +91,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/orders/{id}")
-    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") String id) {
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") long id) {
         try {
-            orderRepository.deleteById(id);
+            orderRepository.deleteById(String.valueOf(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,9 +109,4 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/testing")
-    public String endpointTests() {
-        return "Endpoint functionals";
-    }
-
 }

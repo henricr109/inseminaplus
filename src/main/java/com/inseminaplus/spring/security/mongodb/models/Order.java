@@ -1,33 +1,35 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.Date;
 
 @Entity
 @Table(name= "Orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_generator")
+    private long id;
     @Column(name= "date")
     private Date date;
-
     @Column(name = "situation")
-    private String situation;
-
+    private boolean situation;
     @Column(name = "value")
     private Double value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Client client;
-
     public Order() {
 
     }
 
-    public Order(Date date, String situation, double value, Client client){
+    public Order(Date date, boolean situation, double value, Client client){
         this.date = date;
         this.situation = situation;
         this.value = value;
@@ -38,7 +40,7 @@ public class Order {
         this.date = date;
     }
 
-    public void setSituation(String situation){
+    public void setSituation(boolean situation){
         this.situation = situation;
     }
 
@@ -54,7 +56,7 @@ public class Order {
         return this.date;
     }
 
-    public String getSituation(){
+    public boolean getSituation(){
         return this.situation;
     }
 

@@ -33,7 +33,7 @@ public class ProductController {
     @Autowired
     private ClientRepository clientRepository;
 
-    @GetMapping("/product")
+    @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String name) {
         try {
             List<Product> products = new ArrayList<Product>();
@@ -112,9 +112,4 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/test")
-    public String endpointTest() {
-        return "Endpoint functional";
-    }
-
 }
