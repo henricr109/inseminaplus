@@ -1,69 +1,50 @@
 # inseminaplus
 
-Subir servidor MySql:
+## MySql
+```bash
+sudo systemctl start mysqld
+```
+## application.properties
 
-sudo systemctl start mysqld(fedora)
+**MongodbAtlas:**
 
-trocar no application.properties dentro do resources:
+   * spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<clusterName>.mongodb.net/< databaseName >
 
-MongodbAtlas(Em nuvem, portanto não é necessário abrir o servidor do database):
+   * spring.data.mongodb.database=< databaseName >
 
-spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<clusterName>.mongodb.net/< databaseName >
+**MySql:**
+   * spring.datasource.url= jdbc:mysql://localhost:3306/<database ame>?useSSL=false
+   
+   * spring.datasource.username= root
+   
+   * spring.datasource.password=< rootPassword >
+   
+   * spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQLDialect
+   
+   * spring.jpa.hibernate.ddl-auto= update
 
-spring.data.mongodb.database=< databaseName >
-
-MySql(servidor local é necessário subir servidor):
-
-
-spring.datasource.url= jdbc:mysql://localhost:3306/<database ame>?useSSL=false
-
-spring.datasource.username= root
-
-spring.datasource.password=< rootPassword >
-
-spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQLDialect
-
-spring.jpa.hibernate.ddl-auto= update
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Precisa do maven
-
-mvn spring-boot:run - Inicia o programa
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Precisa add as roles no database antes de tentar usar os endpoins caso não haja
-
+## Maven
+```bash
+mvn spring-boot:run
+```
+## Mongosh Mongodb
+```bash
 db.roles.insertMany([
    { name: "ROLE_COMPRADOR" },
    { name: "ROLE_VENDEDOR" },
    { name: "ROLE_ADMIN" },
 ])
+```
+## Endpoints
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+**POSTS:**
+* /api/auth/signup|Create an account
+* /api/auth/signin|Login into an account
+* /api/client|Register client
+* /api/clients/{clientId}/products|Register product
+* /api/clients/{clientId}/orders|Register order
+* /api/orders/{orderId}/items|Register item
 
-Usos endpoints - use postman
-
-POSTS-USE ARQUIVO DE POST PARA TESTAR SIGN UP E SIGN IN DO MONGODB->inseminaPlus Requests.postman_collection.json
-
-POST 	/api/auth/signout     logout the account
-
-Header nos metodos de autorização get:
-
-KEY : Authorization
-
-VALUE:Bearer [TOKEN]
-
-GET 	/api/test/all retrieve public content
-
-GET 	/api/test/comprador access Comprador content
-
-GET 	/api/test/vendedor access Vendedor content
-
-GET 	/api/test/admin access Admin content
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
