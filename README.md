@@ -45,6 +45,22 @@ db.roles.insertMany([
 * /api/clients/{clientId}/orders|Register order
 * /api/orders/{orderId}/items|Register item
 
+**GETS:**
+* /api/clients|Pulls all clients
+* /api/clients/{id}|Pulls clients by id
+* /api/items|Pulls all items
+* /api/items/{id}|Pulls items by id
+* /api/orders|Pulls all orders
+* /api/orders/{id}|Pulls orders by id
+* /api/products|Pulls all products
+* /api/products/{id}|Pulls products by id
+* /api/test/all|Test public content
+* /api/test/comprador|Test comprador content
+* /api/test/vendendor|Test vendedor content
+* /api/test/admin|Test admin content
+
+
+
 
 
 
