@@ -24,7 +24,7 @@ import com.inseminaplus.spring.security.mongodb.repository.ClientRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/cli")
+@RequestMapping("/api")
 public class ClientController {
     @Autowired
     ClientRepository clientRepository;
@@ -60,7 +60,7 @@ public class ClientController {
         }
     }
 
-    @PostMapping("/clients")
+    @PostMapping("/postClient")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
         try {
             Client _client = clientRepository

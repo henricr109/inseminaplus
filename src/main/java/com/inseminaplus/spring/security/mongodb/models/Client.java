@@ -15,7 +15,7 @@ public class Client {
     @Column(name="name")
     private String name;
     @Column(name="birthDate")
-    private Date birthDate;
+    private String birthDate;
     @Column(name="address")
     private String address;
     @Column(name="certificateCode")
@@ -28,7 +28,7 @@ public class Client {
 
     }
 
-    public Client( String name, Date birthDate, String address, Integer certificateCode, String email) {
+    public Client( String name, String birthDate, String address, Integer certificateCode, String email) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
@@ -52,11 +52,11 @@ public class Client {
         this.name = name;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
