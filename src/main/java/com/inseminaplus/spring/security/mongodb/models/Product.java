@@ -1,13 +1,17 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
     private long id;
 
     @Column(name = "name")
@@ -20,6 +24,11 @@ public class Product {
     private int value;
     @Column(name="race")
     private String race;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Client client;
 
     public Product() {
 
@@ -31,6 +40,14 @@ public class Product {
         this.stock = stock;
         this.value = value;
         this.race = race;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getRace() {
