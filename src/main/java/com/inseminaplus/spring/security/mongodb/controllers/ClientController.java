@@ -29,7 +29,7 @@ public class ClientController {
     @Autowired
     ClientRepository clientRepository;
 
-    @GetMapping("/client")
+    @GetMapping("/clients")
     public ResponseEntity<List<Client>> getAllClients(@RequestParam(required = false) String name) {
         try {
             List<Client> clients = new ArrayList<>();
@@ -60,7 +60,7 @@ public class ClientController {
         }
     }
 
-    @PostMapping("/postClient")
+    @PostMapping("/client")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
         try {
             Client _client = clientRepository
