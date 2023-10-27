@@ -19,6 +19,9 @@ public class SignupRequest {
   @NotBlank
   @Size( max = 15)
   private String afe;
+  @NotBlank
+  @Size( max = 100)
+  private String address;
 
   public String getCpf() {
     return cpf;
@@ -72,5 +75,13 @@ public class SignupRequest {
 
   public void setRole(Set<String> roles) {
     this.roles = roles;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 }
