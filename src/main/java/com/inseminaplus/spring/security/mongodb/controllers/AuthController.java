@@ -71,7 +71,6 @@ public class AuthController {
             userDetails.getEmail(),
             roles));
   }
-
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -79,13 +78,9 @@ public class AuthController {
           .badRequest()
           .body(new MessageResponse("Error: Email is already in use!"));
     }
-
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()),
-            signUpRequest.getCpf(),
-            signUpRequest.getAfe(),
-            signUpRequest.getAddress());
+            encoder.encode(signUpRequest.getPassword()));
 
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();

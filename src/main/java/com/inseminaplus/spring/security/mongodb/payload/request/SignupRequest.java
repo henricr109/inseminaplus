@@ -13,31 +13,6 @@ public class SignupRequest {
   @Size(max = 50)
   @Email
   private String email;
-  @NotBlank
-  @Size( max = 15)
-  private String cpf;
-  @NotBlank
-  @Size( max = 15)
-  private String afe;
-  @NotBlank
-  @Size( max = 100)
-  private String address;
-
-  public String getCpf() {
-    return cpf;
-  }
-
-  public void setCpf(String cpf) {
-    this.cpf = cpf;
-  }
-
-  public String getAfe() {
-    return afe;
-  }
-
-  public void setAfe(String afe) {
-    this.afe = afe;
-  }
 
   private Set<String> roles;
 
@@ -77,11 +52,4 @@ public class SignupRequest {
     this.roles = roles;
   }
 
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
 }
