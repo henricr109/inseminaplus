@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.sql.Blob;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -25,6 +27,9 @@ public class Product {
     private String race;
     @Column(name="description")
     private String description;
+    @Lob
+    @Column (name="images", columnDefinition ="BLOB")
+    private byte[] images;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -35,13 +40,14 @@ public class Product {
 
     }
 
-    public Product(String name, String category, int stock, int value, String race, String description) {
+    public Product(String name, String category, int stock, int value, String race, String description, byte[] images) {
         this.name = name;
         this.category = category;
         this.stock = stock;
         this.value = value;
         this.race = race;
         this.description = description;
+        this.images = images;
     }
 
     public Client getClient() {
@@ -108,6 +114,14 @@ public class Product {
         this.description = description;
     }
 
+    public byte[] getImages() {
+        return images;
+    }
+
+    public void setImages(byte[] images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -118,6 +132,7 @@ public class Product {
                 ", value=" + value +
                 ", race='" + race + '\'' +
                 ", description='" + description + '\'' +
+                ", images=" + images +
                 ", client=" + client +
                 '}';
     }
