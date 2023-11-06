@@ -25,22 +25,8 @@ public class User {
   @Email
   private String email;
   @NotBlank
-  @Size(max = 15)
-  private String cpf;
-
-  @NotBlank
-  @Size(max = 15)
-  private String afe;;
-
-
-  @NotBlank
   @Size(max = 120)
   private String password;
-
-  @NotBlank
-  @Size(max=100)
-  private String address;
-
 
   @DBRef
   private Set<Role> roles = new HashSet<>();
@@ -48,29 +34,10 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password, String cpf, String afe, String address) {
+  public User(String username, String email, String password) {
     this.username = username;
     this.email = email;
     this.password = password;
-    this.cpf = cpf;
-    this.afe = afe;
-    this.address = address;
-  }
-
-  public String getCpf() {
-    return cpf;
-  }
-
-  public void setCpf(String cpf) {
-    this.cpf = cpf;
-  }
-
-  public String getAfe() {
-    return afe;
-  }
-
-  public void setAfe(String afe) {
-    this.afe = afe;
   }
 
   public String getId() {
@@ -113,24 +80,13 @@ public class User {
     this.roles = roles;
   }
 
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
   @Override
   public String toString() {
     return "User{" +
             "id='" + id + '\'' +
             ", username='" + username + '\'' +
             ", email='" + email + '\'' +
-            ", cpf='" + cpf + '\'' +
-            ", afe='" + afe + '\'' +
             ", password='" + password + '\'' +
-            ", address='" + address + '\'' +
             ", roles=" + roles +
             '}';
   }

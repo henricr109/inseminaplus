@@ -2,9 +2,11 @@ package com.inseminaplus.spring.security.mongodb.controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.inseminaplus.spring.security.mongodb.models.Client;
 import com.inseminaplus.spring.security.mongodb.models.ERole;
 import com.inseminaplus.spring.security.mongodb.models.Role;
 import com.inseminaplus.spring.security.mongodb.models.User;
@@ -18,17 +20,14 @@ import com.inseminaplus.spring.security.mongodb.security.services.UserDetailsImp
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.inseminaplus.spring.security.mongodb.repository.UserRepository;
 
@@ -71,7 +70,6 @@ public class AuthController {
             userDetails.getEmail(),
             roles));
   }
-
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -79,13 +77,9 @@ public class AuthController {
           .badRequest()
           .body(new MessageResponse("Error: Email is already in use!"));
     }
-
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()),
-            signUpRequest.getCpf(),
-            signUpRequest.getAfe(),
-            signUpRequest.getAddress());
+            encoder.encode(signUpRequest.getPassword()));
 
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
@@ -121,6 +115,20 @@ public class AuthController {
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+  }
+  @PutMapping("/user{id}")
+  public ResponseEntity<User> updateClient(@PathVariable("id") String id, @RequestBody User user) {
+    Optional<User> userData = userRepository.findById(id);
+
+    if (userData.isPresent()) {
+      User _user = userData.get();
+      _user.setUsername(user.getUsername());
+      _user.setEmail(user.getEmail());
+      _user.setPassword(user.getPassword());
+      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 }
 

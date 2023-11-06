@@ -23,6 +23,8 @@ public class Product {
     private int value;
     @Column(name="race")
     private String race;
+    @Column(name="description")
+    private String description;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,12 +35,13 @@ public class Product {
 
     }
 
-    public Product(String name, String category, int stock, int value, String race) {
+    public Product(String name, String category, int stock, int value, String race, String description) {
         this.name = name;
         this.category = category;
         this.stock = stock;
         this.value = value;
         this.race = race;
+        this.description = description;
     }
 
     public Client getClient() {
@@ -97,15 +100,25 @@ public class Product {
         this.category = category;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", stock='" + stock + '\'' +
-                ", value='" + value + '\'' +
                 ", category='" + category + '\'' +
-                ", race= '" + this.race + '\'' +
+                ", stock=" + stock +
+                ", value=" + value +
+                ", race='" + race + '\'' +
+                ", description='" + description + '\'' +
+                ", client=" + client +
                 '}';
     }
 }
