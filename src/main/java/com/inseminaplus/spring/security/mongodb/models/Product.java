@@ -1,73 +1,53 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.sql.Blob;
-
-@Entity
-@Table(name = "products")
+@Document
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
-    private long id;
-    @Column(name = "name")
+    private String productId;
+    @NotBlank
     private String name;
-    @Column(name="category")
+    @NotBlank
     private String category;
-    @Column(name="stock")
-    private int stock;
-    @Column(name="value")
-    private int value;
-    @Column(name="race")
+    @NotBlank
+    private String stock;
+    @NotBlank
+    private String value;
+    @NotBlank
     private String race;
-    @Column(name="description")
+    @NotBlank
     private String description;
-    @Lob
-    @Column (name="images", columnDefinition ="BLOB")
-    private byte[] images;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "client_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Client client;
-
+    @NotBlank
+    private String fkUserId;
+    
     public Product() {
 
     }
 
-    public Product(String name, String category, int stock, int value, String race, String description, byte[] images) {
+    public Product( String name, String category, String stock, String value, String race, String description, String fkUserId) {
         this.name = name;
         this.category = category;
         this.stock = stock;
         this.value = value;
         this.race = race;
         this.description = description;
-        this.images = images;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
+        this.fkUserId = fkUserId;
     }
 
     public String getRace() {
         return this.race;
     }
 
-    public long getId() {
-        return id;
+    public String getId() {
+        return productId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(String id) {
+        this.productId = id;
     }
 
     public String getName() {
@@ -82,19 +62,19 @@ public class Product {
         this.race = race;
     }
 
-    public int getStock() {
+    public String getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(String stock) {
         this.stock = stock;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(String value) {
         this.value = value;
     }
 
@@ -114,26 +94,25 @@ public class Product {
         this.description = description;
     }
 
-    public byte[] getImages() {
-        return images;
+    public String getFkUserId() {
+        return fkUserId;
     }
 
-    public void setImages(byte[] images) {
-        this.images = images;
+    public void setFkUserId(String fkUserId) {
+        this.fkUserId = fkUserId;
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id=" + productId +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 ", stock=" + stock +
                 ", value=" + value +
                 ", race='" + race + '\'' +
                 ", description='" + description + '\'' +
-                ", images=" + images +
-                ", client=" + client +
+
                 '}';
     }
 }

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inseminaplus.spring.security.mongodb.models.Order;
 import com.inseminaplus.spring.security.mongodb.repository.OrderRepository;
-import com.inseminaplus.spring.security.mongodb.repository.ClientRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -29,8 +28,6 @@ import com.inseminaplus.spring.security.mongodb.repository.ClientRepository;
 public class OrderController {
     @Autowired
     OrderRepository orderRepository;
-    @Autowired
-    private ClientRepository clientRepository;
 
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getAllOrders(@RequestParam(required = false) String  id) {
@@ -63,16 +60,29 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/clients/{clientId}/orders")
-    public ResponseEntity<Order> createOrder(@PathVariable(value = "clientId") Long clientId,
-                                                 @RequestBody Order orderRequest) {
-        Order order = clientRepository.findById(clientId).map(client -> {
-            orderRequest.setClient(client);
-            return orderRepository.save(orderRequest);
-        }).orElseThrow(() -> new ResourceNotFoundException("Not found Client with id = " + clientId));
-
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+    @PostMapping("/orders")
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        try {
+            Order _order = orderRepository.save(new Order(order.getDate(), order.getSituation(),order.getValue(),order.getFkUserId()));
+            return new ResponseEntity<>(_order, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+    @GetMapping("/orders/{fkUserId}")
+    public ResponseEntity<List<Order>> findByFkUserId(@PathVariable("fkUserId")String fkUserId) {
+        try {
+            List<Order> orders = orderRepository.findByFkUserId(fkUserId);
+
+            if (orders.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @PutMapping("/orders/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable("id") long id, @RequestBody Order order) {
@@ -81,7 +91,6 @@ public class OrderController {
         if (orderData.isPresent()) {
             Order _order = orderData.get();
             _order.setDate(order.getDate());
-            _order.setClient(order.getClient());
             _order.setSituation(order.getSituation());
             _order.setValue(order.getValue());
             return new ResponseEntity<>(orderRepository.save(_order), HttpStatus.OK);

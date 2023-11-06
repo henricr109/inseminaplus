@@ -1,13 +1,14 @@
 package com.inseminaplus.spring.security.mongodb.repository;
 import java.util.List;
+import java.util.Optional;
 
-import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.inseminaplus.spring.security.mongodb.models.Product;
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends MongoRepository<Product, String> {
     List<Product> findByNameContaining(String name);
-    List<Product> findByClientId(Long postId);
+    Optional<Product> findById(String id);
 
+    List<Product> findByFkUserId(String fkUserId);
 }
 

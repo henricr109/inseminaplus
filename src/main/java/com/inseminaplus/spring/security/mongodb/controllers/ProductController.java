@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.inseminaplus.spring.security.mongodb.exception.ResourceNotFoundException;
+import com.inseminaplus.spring.security.mongodb.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inseminaplus.spring.security.mongodb.models.Product;
 import com.inseminaplus.spring.security.mongodb.repository.ProductRepository;
-import com.inseminaplus.spring.security.mongodb.repository.ClientRepository;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
@@ -29,9 +30,6 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
-
-    @Autowired
-    private ClientRepository clientRepository;
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String name) {
@@ -54,7 +52,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") String id) {
         Optional<Product> productData = productRepository.findById(id);
 
         if (productData.isPresent()) {
@@ -64,20 +62,31 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/clients/{clientId}/products")
-    public ResponseEntity<Product> createProduct(@PathVariable(value = "clientId") Long clientId,
-                                                 @RequestBody Product productRequest) {
-        Product product = clientRepository.findById(clientId).map(client -> {
-            productRequest.setClient(client);
-            return productRepository.save(productRequest);
-        }).orElseThrow(() -> new ResourceNotFoundException("Not found Client with id = " + clientId));
+    @PostMapping("/products")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        try {
+            Product _product = productRepository.save(new Product(product.getName(), product.getCategory(), product.getStock(),product.getValue(),product.getRace(),product.getDescription(),product.getFkUserId()));
+            return new ResponseEntity<>(_product, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/products/userId/{fkUserId}")
+    public ResponseEntity<List<Product>> findByFkUserId(@PathVariable("fkUserId")String fkUserId) {
+        try {
+            List<Product> products = productRepository.findByFkUserId(fkUserId);
 
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+            if (products.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-
     @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
         Optional<Product> productData = productRepository.findById(id);
 
         if (productData.isPresent()) {
@@ -94,7 +103,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") String id) {
         try {
             productRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

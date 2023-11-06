@@ -1,8 +1,12 @@
 package com.inseminaplus.spring.security.mongodb.payload.request;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+import com.inseminaplus.spring.security.mongodb.models.Product;
 import jakarta.validation.constraints.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class SignupRequest {
   @NotBlank
@@ -13,9 +17,13 @@ public class SignupRequest {
   @Size(max = 50)
   @Email
   private String email;
-
+  @Size(max=30)
+  private String birthDate;
+  @Size(max=30)
+  private String address;
+  @Size(max=30)
+  private String certificateCode;
   private Set<String> roles;
-
   @NotBlank
   @Size(min = 6, max = 40)
   private String password;
@@ -52,4 +60,27 @@ public class SignupRequest {
     this.roles = roles;
   }
 
+  public String getBirthDate() {
+    return birthDate;
+  }
+
+  public void setBirthDate(String birthDate) {
+    this.birthDate = birthDate;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getCertificateCode() {
+    return certificateCode;
+  }
+
+  public void setCertificateCode(String certificateCode) {
+    this.certificateCode = certificateCode;
+  }
 }

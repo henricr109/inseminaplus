@@ -6,10 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.inseminaplus.spring.security.mongodb.models.Client;
-import com.inseminaplus.spring.security.mongodb.models.ERole;
-import com.inseminaplus.spring.security.mongodb.models.Role;
-import com.inseminaplus.spring.security.mongodb.models.User;
+import com.inseminaplus.spring.security.mongodb.models.*;
 import com.inseminaplus.spring.security.mongodb.payload.request.LoginRequest;
 import com.inseminaplus.spring.security.mongodb.payload.request.SignupRequest;
 import com.inseminaplus.spring.security.mongodb.payload.response.MessageResponse;
@@ -79,7 +76,10 @@ public class AuthController {
     }
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()));
+            encoder.encode(signUpRequest.getPassword()),
+            signUpRequest.getBirthDate(),
+            signUpRequest.getAddress(),
+            signUpRequest.getCertificateCode());
 
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
@@ -116,16 +116,25 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
-  @PutMapping("/user{id}")
+  @PutMapping("/seller/{id}")
   public ResponseEntity<User> updateClient(@PathVariable("id") String id, @RequestBody User user) {
+    Optional<User> userData = userRepository.findById(id);
+    if (userData.isPresent()) {
+      User _user = userData.get();
+      _user.setBirthDate(user.getBirthDate());
+      _user.setAddress(user.getAddress());
+      _user.setCertificateCode(user.getCertificateCode());
+      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+  @GetMapping("/user/{id}")
+  public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
     Optional<User> userData = userRepository.findById(id);
 
     if (userData.isPresent()) {
-      User _user = userData.get();
-      _user.setUsername(user.getUsername());
-      _user.setEmail(user.getEmail());
-      _user.setPassword(user.getPassword());
-      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+      return new ResponseEntity<>(userData.get(), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
