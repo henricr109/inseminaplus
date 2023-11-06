@@ -124,6 +124,16 @@ public class AuthController {
       _user.setBirthDate(user.getBirthDate());
       _user.setAddress(user.getAddress());
       _user.setCertificateCode(user.getCertificateCode());
+      Set<Role> roles = new HashSet<>();
+        {
+          Role userRole = roleRepository.findByName(ERole.ROLE_COMPRADOR)
+                  .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+          roles.add(userRole);
+        }
+        Role userRole = roleRepository.findByName(ERole.ROLE_VENDEDOR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(userRole);
+        _user.setRoles(roles);
       return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
