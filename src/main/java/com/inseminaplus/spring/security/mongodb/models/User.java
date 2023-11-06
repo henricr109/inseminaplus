@@ -1,9 +1,6 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -113,7 +110,6 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
-
 
   @Override
   public String toString() {

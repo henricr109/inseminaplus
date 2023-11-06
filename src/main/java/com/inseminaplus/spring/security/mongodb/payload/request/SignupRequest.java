@@ -1,12 +1,9 @@
 package com.inseminaplus.spring.security.mongodb.payload.request;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
-import com.inseminaplus.spring.security.mongodb.models.Product;
 import jakarta.validation.constraints.*;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+
 
 public class SignupRequest {
   @NotBlank
