@@ -1,11 +1,7 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.Transaction;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -20,15 +16,18 @@ public class Order {
     private String situation;
     @NotBlank
     private String value;
+    @NotBlank
+    private String fkUserId;
 
     public Order() {
 
     }
 
-    public Order(String date, String situation, String value){
+    public Order(String date, String situation, String value, String fkUserId) {
         this.date = date;
         this.situation = situation;
         this.value = value;
+        this.fkUserId = fkUserId;
     }
 
     public void setDate(String date){
@@ -55,6 +54,13 @@ public class Order {
         return this.value;
     }
 
+    public String getFkUserId() {
+        return fkUserId;
+    }
+
+    public void setFkUserId(String fkUserId) {
+        this.fkUserId = fkUserId;
+    }
 
     @Override
     public String toString() {

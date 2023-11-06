@@ -1,7 +1,7 @@
 package com.inseminaplus.spring.security.mongodb.models;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -21,20 +21,22 @@ public class Product {
     private String race;
     @NotBlank
     private String description;
+    @NotBlank
+    private String fkUserId;
     
     public Product() {
 
     }
 
-    public Product(String name, String category, String stock, String value, String race, String description) {
+    public Product( String name, String category, String stock, String value, String race, String description, String fkUserId) {
         this.name = name;
         this.category = category;
         this.stock = stock;
         this.value = value;
         this.race = race;
         this.description = description;
+        this.fkUserId = fkUserId;
     }
-
 
     public String getRace() {
         return this.race;
@@ -92,6 +94,13 @@ public class Product {
         this.description = description;
     }
 
+    public String getFkUserId() {
+        return fkUserId;
+    }
+
+    public void setFkUserId(String fkUserId) {
+        this.fkUserId = fkUserId;
+    }
 
     @Override
     public String toString() {

@@ -68,7 +68,7 @@ public class AuthController {
             roles));
   }
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, List<Product> products, List<Order> orders) {
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
           .badRequest()
@@ -76,10 +76,11 @@ public class AuthController {
     }
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
+            encoder.encode(signUpRequest.getPassword()),
             signUpRequest.getBirthDate(),
             signUpRequest.getAddress(),
-            signUpRequest.getCertificateCode(),
-            encoder.encode(signUpRequest.getPassword()));
+            signUpRequest.getCertificateCode());
+
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
 
@@ -111,8 +112,6 @@ public class AuthController {
     }
 
     user.setRoles(roles);
-    user.setProducts(products);
-    user.setOrders(orders);
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -127,6 +126,16 @@ public class AuthController {
       _user.setEmail(user.getEmail());
       _user.setPassword(user.getPassword());
       return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+  @GetMapping("/user/{id}")
+  public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
+    Optional<User> userData = userRepository.findById(id);
+
+    if (userData.isPresent()) {
+      return new ResponseEntity<>(userData.get(), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

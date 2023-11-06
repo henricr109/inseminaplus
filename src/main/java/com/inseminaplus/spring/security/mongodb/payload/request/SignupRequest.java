@@ -1,6 +1,7 @@
 package com.inseminaplus.spring.security.mongodb.payload.request;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import com.inseminaplus.spring.security.mongodb.models.Product;
@@ -18,15 +19,10 @@ public class SignupRequest {
   private String email;
   @Size(max=30)
   private String birthDate;
-
   @Size(max=30)
   private String address;
-
   @Size(max=30)
   private String certificateCode;
-  @DBRef
-  private Collection<Product> products;
-
   private Set<String> roles;
   @NotBlank
   @Size(min = 6, max = 40)
@@ -62,14 +58,6 @@ public class SignupRequest {
 
   public void setRole(Set<String> roles) {
     this.roles = roles;
-  }
-
-  public Collection<Product> getProducts() {
-    return products;
-  }
-
-  public void setProducts(Collection<Product> products) {
-    this.products = products;
   }
 
   public String getBirthDate() {

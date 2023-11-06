@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") String id) {
         Optional<Product> productData = productRepository.findById(id);
 
         if (productData.isPresent()) {
@@ -62,18 +62,31 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/orders")
-    public ResponseEntity<Product> createTutorial(@RequestBody Product product) {
+    @PostMapping("/products")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         try {
-            Product _product = productRepository.save(new Product(product.getName(), product.getCategory(), product.getStock(),product.getValue(),product.getRace(),product.getDescription()));
+            Product _product = productRepository.save(new Product(product.getName(), product.getCategory(), product.getStock(),product.getValue(),product.getRace(),product.getDescription(),product.getFkUserId()));
             return new ResponseEntity<>(_product, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/products/userId/{fkUserId}")
+    public ResponseEntity<List<Product>> findByFkUserId(@PathVariable("fkUserId")String fkUserId) {
+        try {
+            List<Product> products = productRepository.findByFkUserId(fkUserId);
+
+            if (products.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
         Optional<Product> productData = productRepository.findById(id);
 
         if (productData.isPresent()) {
@@ -90,7 +103,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") String id) {
         try {
             productRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

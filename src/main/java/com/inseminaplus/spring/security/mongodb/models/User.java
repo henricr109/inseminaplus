@@ -13,10 +13,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "users")
 public class User {
   @Id
-  private String userId;
+  private String id;
 
   @NotBlank
   @Size(max = 20)
@@ -33,13 +33,8 @@ public class User {
   private String birthDate;
   @Size(max=30)
   private String address;
-
   @Size(max=30)
   private String certificateCode;
-  @DBRef(lazy = true)
-  private List<Product> products;
-  @DBRef(lazy = true)
-  private List<Order> orders;
   @DBRef
   private Set<Role> roles = new HashSet<>();
 
@@ -55,12 +50,12 @@ public class User {
     this.certificateCode = certificateCode;
   }
 
-  public String getUserId() {
-    return userId;
+  public String getId() {
+    return id;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getUsername() {
@@ -119,26 +114,11 @@ public class User {
     this.roles = roles;
   }
 
-  public List<Product> getProducts() {
-    return products;
-  }
-
-  public void setProducts(List<Product> products) {
-    this.products = products;
-  }
-
-  public List<Order> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(List<Order> orders) {
-    this.orders = orders;
-  }
 
   @Override
   public String toString() {
     return "User{" +
-            "userId='" + userId + '\'' +
+            "userId='" + id + '\'' +
             ", username='" + username + '\'' +
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +

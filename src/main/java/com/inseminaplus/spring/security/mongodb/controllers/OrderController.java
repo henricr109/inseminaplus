@@ -61,14 +61,28 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public ResponseEntity<Order> createTutorial(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         try {
-            Order _order = orderRepository.save(new Order(order.getDate(), order.getSituation(), order.getValue()));
+            Order _order = orderRepository.save(new Order(order.getDate(), order.getSituation(),order.getValue(),order.getFkUserId()));
             return new ResponseEntity<>(_order, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/orders/{fkUserId}")
+    public ResponseEntity<List<Order>> findByFkUserId(@PathVariable("fkUserId")String fkUserId) {
+        try {
+            List<Order> orders = orderRepository.findByFkUserId(fkUserId);
+
+            if (orders.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @PutMapping("/orders/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable("id") long id, @RequestBody Order order) {
