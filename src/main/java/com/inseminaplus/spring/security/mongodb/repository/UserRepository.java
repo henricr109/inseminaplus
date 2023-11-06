@@ -1,8 +1,6 @@
 package com.inseminaplus.spring.security.mongodb.repository;
 
 import java.util.Optional;
-
-import com.inseminaplus.spring.security.mongodb.models.Product;
 import com.inseminaplus.spring.security.mongodb.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

@@ -2,7 +2,6 @@ package com.inseminaplus.spring.security.mongodb.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
-import com.inseminaplus.spring.security.mongodb.security.jwt.JwtUtils;
 import com.inseminaplus.spring.security.mongodb.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
