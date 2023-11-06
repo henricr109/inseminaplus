@@ -6,10 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.inseminaplus.spring.security.mongodb.models.Client;
-import com.inseminaplus.spring.security.mongodb.models.ERole;
-import com.inseminaplus.spring.security.mongodb.models.Role;
-import com.inseminaplus.spring.security.mongodb.models.User;
+import com.inseminaplus.spring.security.mongodb.models.*;
 import com.inseminaplus.spring.security.mongodb.payload.request.LoginRequest;
 import com.inseminaplus.spring.security.mongodb.payload.request.SignupRequest;
 import com.inseminaplus.spring.security.mongodb.payload.response.MessageResponse;
@@ -71,7 +68,7 @@ public class AuthController {
             roles));
   }
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, List<Product> products, List<Order> orders) {
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
           .badRequest()
@@ -79,8 +76,10 @@ public class AuthController {
     }
     User user = new User(signUpRequest.getUsername(),
                          signUpRequest.getEmail(),
+            signUpRequest.getBirthDate(),
+            signUpRequest.getAddress(),
+            signUpRequest.getCertificateCode(),
             encoder.encode(signUpRequest.getPassword()));
-
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
 
@@ -112,6 +111,8 @@ public class AuthController {
     }
 
     user.setRoles(roles);
+    user.setProducts(products);
+    user.setOrders(orders);
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

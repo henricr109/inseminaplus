@@ -2,71 +2,59 @@ package com.inseminaplus.spring.security.mongodb.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Entity
-@Table(name= "Orders")
+@Document
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_generator")
-    private long id;
-    @Column(name= "date")
-    private Date date;
-    @Column(name = "situation")
-    private boolean situation;
-    @Column(name = "value")
-    private Double value;
+    private String id;
+    @NotBlank
+    private String date;
+    @NotBlank
+    private String situation;
+    @NotBlank
+    private String value;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "client_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Client client;
     public Order() {
 
     }
 
-    public Order(Date date, boolean situation, double value, Client client){
+    public Order(String date, String situation, String value){
         this.date = date;
         this.situation = situation;
         this.value = value;
-        this.client = client;
     }
 
-    public void setDate(Date date){
+    public void setDate(String date){
         this.date = date;
     }
 
-    public void setSituation(boolean situation){
+    public void setSituation(String situation){
         this.situation = situation;
     }
 
-    public void setValue(Double value){
+    public void setValue(String value){
         this.value = value;
     }
 
-    public void setClient(Client client){
-        this.client = client;
-    }
-
-    public Date getDate(){
+    public String getDate(){
         return this.date;
     }
 
-    public boolean getSituation(){
+    public String getSituation(){
         return this.situation;
     }
 
-    public Double getValue(){
+    public String getValue(){
         return this.value;
     }
 
-    public Client getClient() {
-        return this.client;
-    }
 
     @Override
     public String toString() {
@@ -75,7 +63,6 @@ public class Order {
                 ", date='" + this.date + '\'' +
                 ", situation='" + this.situation + '\'' +
                 ", value=" + this.value +
-                ", client='" + this.client + '\'' +
                 '}';
     }
 }
