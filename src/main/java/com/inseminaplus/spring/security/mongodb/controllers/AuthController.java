@@ -116,15 +116,14 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
-  @PutMapping("/user{id}")
+  @PutMapping("/seller/{id}")
   public ResponseEntity<User> updateClient(@PathVariable("id") String id, @RequestBody User user) {
     Optional<User> userData = userRepository.findById(id);
-
     if (userData.isPresent()) {
       User _user = userData.get();
-      _user.setUsername(user.getUsername());
-      _user.setEmail(user.getEmail());
-      _user.setPassword(user.getPassword());
+      _user.setBirthDate(user.getBirthDate());
+      _user.setAddress(user.getAddress());
+      _user.setCertificateCode(user.getCertificateCode());
       return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
