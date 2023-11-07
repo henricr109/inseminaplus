@@ -80,7 +80,9 @@ public class AuthController {
             signUpRequest.getBirthDate(),
             signUpRequest.getCep(),
             signUpRequest.getAddress(),
-            signUpRequest.getCertificateCode());
+            signUpRequest.getCertificateCode(),
+            signUpRequest.getImage());
+
 
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
