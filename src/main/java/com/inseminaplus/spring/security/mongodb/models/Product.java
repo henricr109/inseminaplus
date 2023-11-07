@@ -21,6 +21,7 @@ public class Product {
     private String race;
     @NotBlank
     private String description;
+    private String productImage;
     @NotBlank
     private String fkUserId;
     
@@ -28,13 +29,14 @@ public class Product {
 
     }
 
-    public Product( String name, String category, String stock, String value, String race, String description, String fkUserId) {
+    public Product(String name, String category, String stock, String value, String race, String description, String productImage, String fkUserId) {
         this.name = name;
         this.category = category;
         this.stock = stock;
         this.value = value;
         this.race = race;
         this.description = description;
+        this.productImage = productImage;
         this.fkUserId = fkUserId;
     }
 
@@ -100,6 +102,14 @@ public class Product {
 
     public void setFkUserId(String fkUserId) {
         this.fkUserId = fkUserId;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
     @Override
