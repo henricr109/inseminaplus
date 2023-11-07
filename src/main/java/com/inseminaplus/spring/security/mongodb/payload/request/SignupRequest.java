@@ -17,6 +17,8 @@ public class SignupRequest {
   @Size(max=30)
   private String birthDate;
   @Size(max=30)
+  private String cep;
+  @Size(max=30)
   private String address;
   @Size(max=30)
   private String certificateCode;
@@ -43,6 +45,14 @@ public class SignupRequest {
 
   public String getPassword() {
     return password;
+  }
+
+  public String getCep() {
+    return cep;
+  }
+
+  public void setCep(String cep) {
+    this.cep = cep;
   }
 
   public void setPassword(String password) {

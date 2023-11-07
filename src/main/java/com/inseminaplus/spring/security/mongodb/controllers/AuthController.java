@@ -78,6 +78,7 @@ public class AuthController {
                          signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()),
             signUpRequest.getBirthDate(),
+            signUpRequest.getCep(),
             signUpRequest.getAddress(),
             signUpRequest.getCertificateCode());
 
@@ -122,6 +123,7 @@ public class AuthController {
     if (userData.isPresent()) {
       User _user = userData.get();
       _user.setBirthDate(user.getBirthDate());
+      _user.setCep(user.getCep());
       _user.setAddress(user.getAddress());
       _user.setCertificateCode(user.getCertificateCode());
       Set<Role> roles = new HashSet<>();
@@ -168,5 +170,6 @@ public class AuthController {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
 }
 

@@ -28,6 +28,8 @@ public class User {
   private String password;
   @Size(max=30)
   private String birthDate;
+  @Size(max=10)
+  private String cep;
   @Size(max=30)
   private String address;
   @Size(max=30)
@@ -38,17 +40,26 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password, String birthDate, String address, String certificateCode) {
+  public User(String username, String email, String password, String birthDate, String cep, String address, String certificateCode) {
     this.username = username;
     this.email = email;
     this.password = password;
     this.birthDate = birthDate;
+    this.cep = cep;
     this.address = address;
     this.certificateCode = certificateCode;
   }
 
   public String getId() {
     return id;
+  }
+
+  public String getCep() {
+    return cep;
+  }
+
+  public void setCep(String cep) {
+    this.cep = cep;
   }
 
   public void setId(String id) {
