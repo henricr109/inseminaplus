@@ -185,6 +185,18 @@ public class AuthController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
+  @PutMapping("/imageUser/{id}")
+  public ResponseEntity<User> updateUserImage(@PathVariable("id") String id, @RequestBody User user) {
+    Optional<User> userData = userRepository.findById(String.valueOf(id));
+
+    if (userData.isPresent()) {
+      User _user = userData.get();
+      _user.setImage(user.getImage());
+      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 
 }
 
