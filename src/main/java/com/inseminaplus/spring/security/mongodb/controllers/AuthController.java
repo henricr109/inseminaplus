@@ -149,5 +149,24 @@ public class AuthController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
+  @DeleteMapping("/user/{id}")
+  public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") String id) {
+    try {
+      userRepository.deleteById(String.valueOf(id));
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @DeleteMapping("/users")
+  public ResponseEntity<HttpStatus> deleteAllOrders() {
+    try {
+      userRepository.deleteAll();
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }
 
