@@ -1,9 +1,6 @@
 # inseminaplus
+*Insemina plus é marketplace de insumos bovinos e equinos para inseminação artificial*
 
-## MySql
-```bash
-sudo systemctl start mysqld
-```
 ## application.properties
 
 **MongodbAtlas:**
@@ -12,18 +9,7 @@ sudo systemctl start mysqld
 
    * spring.data.mongodb.database=< databaseName >
 
-**MySql:**
-   * spring.datasource.url= jdbc:mysql://localhost:3306/<database ame>?useSSL=false
-   
-   * spring.datasource.username= root
-   
-   * spring.datasource.password=< rootPassword >
-   
-   * spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQLDialect
-   
-   * spring.jpa.hibernate.ddl-auto= update
-
-## Maven
+## Apache Maven
 ```bash
 mvn spring-boot:run
 ```
@@ -40,24 +26,9 @@ db.roles.insertMany([
 **POSTS:**
 * /api/auth/signup|Create an account
 * /api/auth/signin|Login into an account
-* /api/client|Register client
-* /api/clients/{clientId}/products|Register product
-* /api/clients/{clientId}/orders|Register order
-* /api/orders/{orderId}/items|Register item
 
 **GETS:**
-* /api/clients|Pulls all clients
-* /api/clients/{id}|Pulls clients by id
-* /api/items|Pulls all items
-* /api/items/{id}|Pulls items by id
-* /api/orders|Pulls all orders
-* /api/orders/{id}|Pulls orders by id
-* /api/products|Pulls all products
-* /api/products/{id}|Pulls products by id
-* /api/test/all|Test public content
-* /api/test/comprador|Test comprador content
-* /api/test/vendendor|Test vendedor content
-* /api/test/admin|Test admin content
+* 
 
 
 
