@@ -68,7 +68,7 @@ public class OrderController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/orders/{fkUserId}")
+    @GetMapping("/orders/userId/{fkUserId}")
     public ResponseEntity<List<Order>> findByFkUserId(@PathVariable("fkUserId")String fkUserId) {
         try {
             List<Order> orders = orderRepository.findByFkUserId(fkUserId);

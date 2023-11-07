@@ -3,6 +3,7 @@ package com.inseminaplus.spring.security.mongodb.payload.request;
 import java.util.Set;
 
 import jakarta.validation.constraints.*;
+import org.bson.types.Binary;
 
 
 public class SignupRequest {
@@ -26,6 +27,7 @@ public class SignupRequest {
   @NotBlank
   @Size(min = 6, max = 40)
   private String password;
+  private String image;
 
   public String getUsername() {
     return username;
@@ -89,5 +91,13 @@ public class SignupRequest {
 
   public void setCertificateCode(String certificateCode) {
     this.certificateCode = certificateCode;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 }
