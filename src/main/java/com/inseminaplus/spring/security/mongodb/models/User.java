@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -34,13 +35,14 @@ public class User {
   private String address;
   @Size(max=30)
   private String certificateCode;
+  private Binary image;
   @DBRef
   private Set<Role> roles = new HashSet<>();
 
   public User() {
   }
 
-  public User(String username, String email, String password, String birthDate, String cep, String address, String certificateCode) {
+  public User(String username, String email, String password, String birthDate, String cep, String address, String certificateCode, Binary image) {
     this.username = username;
     this.email = email;
     this.password = password;
@@ -48,6 +50,7 @@ public class User {
     this.cep = cep;
     this.address = address;
     this.certificateCode = certificateCode;
+    this.image = image;
   }
 
   public String getId() {
@@ -112,6 +115,14 @@ public class User {
 
   public void setCertificateCode(String certificateCode) {
     this.certificateCode = certificateCode;
+  }
+
+  public Binary getImage() {
+    return image;
+  }
+
+  public void setImage(Binary image) {
+    this.image = image;
   }
 
   public Set<Role> getRoles() {
