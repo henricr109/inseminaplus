@@ -78,6 +78,7 @@ public class AuthController {
                          signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()),
             signUpRequest.getBirthDate(),
+            signUpRequest.getCep(),
             signUpRequest.getAddress(),
             signUpRequest.getCertificateCode());
 
@@ -122,6 +123,7 @@ public class AuthController {
     if (userData.isPresent()) {
       User _user = userData.get();
       _user.setBirthDate(user.getBirthDate());
+      _user.setCep(user.getCep());
       _user.setAddress(user.getAddress());
       _user.setCertificateCode(user.getCertificateCode());
       Set<Role> roles = new HashSet<>();
@@ -149,5 +151,38 @@ public class AuthController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
+  @DeleteMapping("/user/{id}")
+  public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") String id) {
+    try {
+      userRepository.deleteById(String.valueOf(id));
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @DeleteMapping("/users")
+  public ResponseEntity<HttpStatus> deleteAllOrders() {
+    try {
+      userRepository.deleteAll();
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  @PutMapping("/users/{id}")
+  public ResponseEntity<User> updateOrder(@PathVariable("id") String id, @RequestBody User user) {
+    Optional<User> userData = userRepository.findById(String.valueOf(id));
+
+    if (userData.isPresent()) {
+      User _user = userData.get();
+      _user.setUsername(user.getUsername());
+      _user.setEmail(user.getEmail());
+      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+
 }
 
