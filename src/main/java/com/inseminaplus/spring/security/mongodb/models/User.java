@@ -35,14 +35,14 @@ public class User {
   private String address;
   @Size(max=30)
   private String certificateCode;
-  private String image;
+  private byte[] image;
   @DBRef
   private Set<Role> roles = new HashSet<>();
 
   public User() {
   }
 
-  public User(String username, String email, String password, String birthDate, String cep, String address, String certificateCode, String image) {
+  public User(String username, String email, String password, String birthDate, String cep, String address, String certificateCode, byte[] image) {
     this.username = username;
     this.email = email;
     this.password = password;
@@ -117,11 +117,11 @@ public class User {
     this.certificateCode = certificateCode;
   }
 
-  public String getImage() {
+  public byte[] getImage() {
     return image;
   }
 
-  public void setImage(String image) {
+  public void setImage(byte[] image) {
     this.image = image;
   }
 

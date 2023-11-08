@@ -27,7 +27,7 @@ public class SignupRequest {
   @NotBlank
   @Size(min = 6, max = 40)
   private String password;
-  private String image;
+  private byte[] image;
 
   public String getUsername() {
     return username;
@@ -93,11 +93,11 @@ public class SignupRequest {
     this.certificateCode = certificateCode;
   }
 
-  public String getImage() {
+  public byte[] getImage() {
     return image;
   }
 
-  public void setImage(String image) {
+  public void setImage(byte[] image) {
     this.image = image;
   }
 }
