@@ -20,18 +20,20 @@ public class Order {
     private String fkUserId;
     @NotBlank
     private String productIds;
+    private String orderId;
 
 
     public Order() {
 
     }
 
-    public Order(String date, String situation, String value, String fkUserId, String productIds) {
+    public Order(String date, String situation, String value, String fkUserId, String productIds, String orderId) {
         this.date = date;
         this.situation = situation;
         this.value = value;
         this.fkUserId = fkUserId;
         this.productIds = productIds;
+        this.orderId = orderId;
     }
 
     public void setDate(String date){
@@ -72,6 +74,14 @@ public class Order {
 
     public void setProductIds(String productIds) {
         this.productIds = productIds;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     @Override
