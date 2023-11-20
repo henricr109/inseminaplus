@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 public class Order {
     @Id
@@ -16,16 +18,20 @@ public class Order {
     private String value;
     @NotBlank
     private String fkUserId;
+    @NotBlank
+    private String productIds;
+
 
     public Order() {
 
     }
 
-    public Order(String date, String situation, String value, String fkUserId) {
+    public Order(String date, String situation, String value, String fkUserId, String productIds) {
         this.date = date;
         this.situation = situation;
         this.value = value;
         this.fkUserId = fkUserId;
+        this.productIds = productIds;
     }
 
     public void setDate(String date){
@@ -58,6 +64,14 @@ public class Order {
 
     public void setFkUserId(String fkUserId) {
         this.fkUserId = fkUserId;
+    }
+
+    public String getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(String productIds) {
+        this.productIds = productIds;
     }
 
     @Override
