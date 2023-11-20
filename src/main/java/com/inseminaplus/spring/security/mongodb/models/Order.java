@@ -21,19 +21,22 @@ public class Order {
     @NotBlank
     private String productIds;
     private String orderId;
+    @NotBlank
+    private String idBuyer;
 
 
     public Order() {
 
     }
 
-    public Order(String date, String situation, String value, String fkUserId, String productIds, String orderId) {
+    public Order(String date, String situation, String value, String fkUserId, String productIds, String orderId, String idBuyer) {
         this.date = date;
         this.situation = situation;
         this.value = value;
         this.fkUserId = fkUserId;
         this.productIds = productIds;
         this.orderId = orderId;
+        this.idBuyer = idBuyer;
     }
 
     public void setDate(String date){
@@ -82,6 +85,14 @@ public class Order {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getIdBuyer() {
+        return idBuyer;
+    }
+
+    public void setIdBuyer(String idBuyer) {
+        this.idBuyer = idBuyer;
     }
 
     @Override
