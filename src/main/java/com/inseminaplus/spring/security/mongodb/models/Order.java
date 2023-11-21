@@ -15,17 +15,29 @@ public class Order {
     @NotBlank
     private String value;
     @NotBlank
+    private String quantity;
+    @NotBlank
     private String fkUserId;
+    @NotBlank
+    private String productId;
+    private String orderId;
+    @NotBlank
+    private String buyerId;
+
 
     public Order() {
 
     }
 
-    public Order(String date, String situation, String value, String fkUserId) {
+    public Order(String date, String situation, String value, String quantity, String fkUserId, String productId, String orderId, String idBuyer) {
         this.date = date;
         this.situation = situation;
         this.value = value;
+        this.quantity= quantity;
         this.fkUserId = fkUserId;
+        this.productId = productId;
+        this.orderId = orderId;
+        this.buyerId = idBuyer;
     }
 
     public void setDate(String date){
@@ -58,6 +70,38 @@ public class Order {
 
     public void setFkUserId(String fkUserId) {
         this.fkUserId = fkUserId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
     @Override
