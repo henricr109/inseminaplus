@@ -81,6 +81,19 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/orders/buyerId/{buyerId}")
+    public ResponseEntity<List<Order>> findByBuyerId(@PathVariable("buyerId")String buyerId) {
+        try {
+            List<Order> orders = orderRepository.findByBuyerId(buyerId);
+
+            if (orders.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     @PutMapping("/orders/{id}")
@@ -90,6 +103,25 @@ public class OrderController {
         if (orderData.isPresent()) {
             Order _order = orderData.get();
             _order.setDate(order.getDate());
+            _order.setSituation(order.getSituation());
+            _order.setValue(order.getValue());
+            return new ResponseEntity<>(orderRepository.save(_order), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/orders/situ/{productId}")
+    public ResponseEntity<Order> updateSituation(@PathVariable("productId") String productId, @RequestBody Order order) {
+        Optional<Order> orderData = orderRepository.findByproductId(productId);
+
+        if (orderData.isPresent()) {
+            Order _order = orderData.get();
+            _order.setBuyerId(order.getBuyerId());
+            _order.setDate(order.getDate());
+            _order.setFkUserId(order.getFkUserId());
+            _order.setOrderId(order.getOrderId());
+            _order.setProductId(order.getProductId());
+            _order.setQuantity(order.getProductId());
             _order.setSituation(order.getSituation());
             _order.setValue(order.getValue());
             return new ResponseEntity<>(orderRepository.save(_order), HttpStatus.OK);
