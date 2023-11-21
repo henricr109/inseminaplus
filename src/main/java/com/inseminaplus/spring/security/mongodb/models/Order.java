@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Document
 public class Order {
     @Id
@@ -17,26 +15,29 @@ public class Order {
     @NotBlank
     private String value;
     @NotBlank
+    private String quantity;
+    @NotBlank
     private String fkUserId;
     @NotBlank
-    private String productIds;
+    private String productId;
     private String orderId;
     @NotBlank
-    private String idBuyer;
+    private String buyerId;
 
 
     public Order() {
 
     }
 
-    public Order(String date, String situation, String value, String fkUserId, String productIds, String orderId, String idBuyer) {
+    public Order(String date, String situation, String value, String quantity, String fkUserId, String productId, String orderId, String idBuyer) {
         this.date = date;
         this.situation = situation;
         this.value = value;
+        this.quantity= quantity;
         this.fkUserId = fkUserId;
-        this.productIds = productIds;
+        this.productId = productId;
         this.orderId = orderId;
-        this.idBuyer = idBuyer;
+        this.buyerId = idBuyer;
     }
 
     public void setDate(String date){
@@ -71,12 +72,12 @@ public class Order {
         this.fkUserId = fkUserId;
     }
 
-    public String getProductIds() {
-        return productIds;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProductIds(String productIds) {
-        this.productIds = productIds;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getOrderId() {
@@ -87,12 +88,20 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public String getIdBuyer() {
-        return idBuyer;
+    public String getBuyerId() {
+        return buyerId;
     }
 
-    public void setIdBuyer(String idBuyer) {
-        this.idBuyer = idBuyer;
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
     @Override

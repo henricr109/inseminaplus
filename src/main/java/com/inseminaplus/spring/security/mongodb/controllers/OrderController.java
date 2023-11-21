@@ -62,7 +62,7 @@ public class OrderController {
     @PostMapping("/orders")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         try {
-            Order _order = orderRepository.save(new Order(order.getDate(), order.getSituation(),order.getValue(),order.getFkUserId(),order.getProductIds(),order.getOrderId(), order.getIdBuyer()));
+            Order _order = orderRepository.save(new Order(order.getDate(), order.getSituation(),order.getValue(),order.getQuantity(),order.getFkUserId(),order.getProductId(),order.getOrderId(), order.getBuyerId()));
             return new ResponseEntity<>(_order, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
