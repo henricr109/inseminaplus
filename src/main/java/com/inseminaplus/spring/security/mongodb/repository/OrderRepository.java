@@ -15,7 +15,13 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     List<Order> findByBuyerId(String buyerId);
 
-    Optional<Order> findByproductId(String productId);
+
 
     List<Order> findByBuyerIdOrFkUserId(String buyerId, String fkUserId);
+
+    @Override
+    void delete(Order order);
+
+
+    Order findByproductId(String productId);
 }

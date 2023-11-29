@@ -123,20 +123,12 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/orders/situ/{productId}")
+    @PutMapping("/orders/situation/{productId}")
     public ResponseEntity<Order> updateSituation(@PathVariable("productId") String productId, @RequestBody Order order) {
-        Optional<Order> orderData = orderRepository.findByproductId(productId);
-
+        Optional<Order> orderData = Optional.ofNullable(orderRepository.findByproductId(productId));
         if (orderData.isPresent()) {
             Order _order = orderData.get();
-            _order.setBuyerId(order.getBuyerId());
-            _order.setDate(order.getDate());
-            _order.setFkUserId(order.getFkUserId());
-            _order.setOrderId(order.getOrderId());
-            _order.setProductId(order.getProductId());
-            _order.setQuantity(order.getProductId());
             _order.setSituation(order.getSituation());
-            _order.setValue(order.getValue());
             return new ResponseEntity<>(orderRepository.save(_order), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -144,7 +136,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/orders/{id}")
-    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") String id) {
         try {
             orderRepository.deleteById(String.valueOf(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -152,6 +144,22 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping("/orders/delete/{productId}")
+    public ResponseEntity<HttpStatus> deleteOrderId(@PathVariable("productId") String productId) {
+        try {
+            Order order = orderRepository.findByproductId(productId);
+            if (order != null) {
+                orderRepository.delete(order);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
     @DeleteMapping("/orders")
     public ResponseEntity<HttpStatus> deleteAllOrders() {
