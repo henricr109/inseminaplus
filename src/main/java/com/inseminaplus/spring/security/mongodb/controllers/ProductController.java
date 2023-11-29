@@ -112,6 +112,18 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PutMapping("/products/stock/{id}")
+    public ResponseEntity<Product> updateProductStock(@PathVariable("id") String id, @RequestBody Product product) {
+        Optional<Product> productData = productRepository.findById(id);
+
+        if (productData.isPresent()) {
+            Product _product = productData.get();
+            _product.setStock(product.getStock());
+            return new ResponseEntity<>(productRepository.save(_product), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") String id) {
