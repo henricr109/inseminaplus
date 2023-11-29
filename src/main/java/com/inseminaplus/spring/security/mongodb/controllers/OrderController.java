@@ -94,6 +94,19 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/orders/buyerId/{buyerId}/fkUserId/{fkUserId}")
+    public ResponseEntity<List<Order>> findByBuyerIdOrFkUserId(@PathVariable("buyerId") String buyerId, @PathVariable("fkUserId") String fkUserId) {
+        try {
+            List<Order> orders = orderRepository.findByBuyerIdOrFkUserId(buyerId, fkUserId);
+
+            if (orders.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     @PutMapping("/orders/{id}")
