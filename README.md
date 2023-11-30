@@ -23,15 +23,8 @@ db.roles.insertMany([
    { name: "ROLE_ADMIN" },
 ])
 ```
+Deve ser inserido antes, pois não há suporte do @dref MongoDB para projeto reativo
 ---
-## Endpoints
-
-**POSTS:**
-* /api/auth/signup|Create an account
-* /api/auth/signin|Login into an account
-
-**GETS:**
-* 
 
 
 
