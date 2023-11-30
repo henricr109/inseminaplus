@@ -22,7 +22,8 @@ db.roles.insertMany([
    { name: "ROLE_VENDEDOR" },
    { name: "ROLE_ADMIN" },
 ])
-```Deve ser inserido antes, pois não há suporte do @dref MongoDB para projeto reativo
+```
+* Deve ser inserido antes, pois não há suporte do @dref MongoDB para projeto reativo
 ---
 
 
